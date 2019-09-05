@@ -1,24 +1,24 @@
 package com.cmlx.elasticsearch.utils;
 
 import com.cmlx.elasticsearch.persist.dto.UserDto;
+import lombok.experimental.UtilityClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.stereotype.Component;
 
 /**
  * @Desc
  * @Author cmlx
  * @Date 2019-9-2 0002 20:00
  */
-@Component
+@UtilityClass
 public class ElasticSearchUtil {
 
     @Autowired
     private ElasticsearchTemplate elasticsearchTemplate;
 
-    public void createIndex(UserDto userDto){
+    public void createIndex(){
 
-        elasticsearchTemplate.createIndex(userDto.getClass());
+        elasticsearchTemplate.createIndex(UserDto.class);
 
     }
 

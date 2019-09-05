@@ -1,8 +1,5 @@
-## Elasticsearch配置文件（必须）
-## 该配置和Elasticsearch的elasticsearch.yml中的配置信息有关
-
 spring:
   data:
     elasticsearch:
       cluster-name: my-application
-      cluster-nodes: 127.0.0.1:9300
+      cluster-nodes: 39.96.178.201:9300

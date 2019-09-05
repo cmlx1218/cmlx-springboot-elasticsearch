@@ -1,5 +1,7 @@
 package com.cmlx.elasticsearch.persist.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -10,7 +12,9 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * @Author cmlx
  * @Date 2019-9-2 0002 19:49
  */
-@Document(indexName = "company",type = "user",shards = 1,replicas = 0)
+@Accessors(chain = true)
+@Data
+@Document(indexName = "company",type = "user")
 public class UserDto {
 
     @Id
