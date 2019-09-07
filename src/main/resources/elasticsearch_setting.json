@@ -1,0 +1,24 @@
+{
+  "index": {
+    "analysis": {
+      "analyzer": {
+        "default": {
+          "tokenizer": "ik_max_word"
+        },
+        "pinyin_analyzer": {
+          "tokenizer": "my_pinyin"
+        }
+      },
+      "tokenizer": {
+        "my_pinyin": {
+          "keep_separate_first_letter": "true",
+          "lowercase": "true",
+          "type": "pinyin",
+          "limit_first_letter_length": "16",
+          "keep_original": "true",
+          "keep_full_pinyin": "true"
+        }
+      }
+    }
+  }
+}
