@@ -1,5 +1,5 @@
 {
-  "class001": {
+  "class": {
     "properties": {
       "id": {
         "type": "keyword"

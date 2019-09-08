@@ -39,20 +39,20 @@ public class ElasticSearchTest {
         userRepository.save(new UserDto().setUserId(11L).setUserName("郑强").setAddress("成都").setPrice(111D));
         userRepository.save(new UserDto().setUserId(22L).setUserName("赤名莉香").setAddress("美国").setPrice(111D));
         userRepository.save(new UserDto().setUserId(33L).setUserName("和贺夏树").setAddress("东京").setPrice(111D));
-/*        userRepository.save(new UserDto().setUserId(44L).setUserName("永尾完治").setAddress("爱媛").setPrice(111D));
+        userRepository.save(new UserDto().setUserId(44L).setUserName("永尾完治").setAddress("爱媛").setPrice(111D));
         userRepository.save(new UserDto().setUserId(55L).setUserName("关口里美").setAddress("东京").setPrice(111D));
         userRepository.save(new UserDto().setUserId(66L).setUserName("张无忌").setAddress("武当").setPrice(111D));
         userRepository.save(new UserDto().setUserId(77L).setUserName("周芷若").setAddress("峨眉").setPrice(111D));
         userRepository.save(new UserDto().setUserId(88L).setUserName("赵敏").setAddress("五").setPrice(111D));
         userRepository.save(new UserDto().setUserId(99L).setUserName("无心").setAddress("寒水寺").setPrice(111D));
         userRepository.save(new UserDto().setUserId(111L).setUserName("雷无桀").setAddress("无双城").setPrice(111D));
-        userRepository.save(new UserDto().setUserId(222L).setUserName("李星云").setAddress("汴梁").setPrice(111D));*/
+        userRepository.save(new UserDto().setUserId(222L).setUserName("李星云").setAddress("汴梁").setPrice(111D));
     }
 
     @Test
     public void testSearch() {
-        QueryStringQueryBuilder builder = new QueryStringQueryBuilder("dongjing");
-        builder.analyzer("pinyin_analyzer").field("userName.pinyin").field("address.pinyin");
+        QueryStringQueryBuilder builder = new QueryStringQueryBuilder("wsc");
+        builder.analyzer("ik_max_word").field("userName.pinyin").field("address.pinyin");
         Iterable<UserDto> search = userRepository.search(builder);
         Iterator<UserDto> iterator = search.iterator();
         while (iterator.hasNext()) {
