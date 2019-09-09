@@ -11,12 +11,13 @@
       },
       "tokenizer": {
         "my_pinyin": {
-          "keep_separate_first_letter": "true",
-          "lowercase": "true",
-          "type": "pinyin",
-          "limit_first_letter_length": "16",
-          "keep_original": "true",
-          "keep_full_pinyin": "true"
+          "type" : "pinyin",
+          "keep_separate_first_letter" : true,
+          "keep_full_pinyin" : true,
+          "keep_original" : true,
+          "limit_first_letter_length" : 16,
+          "lowercase" : true,
+          "remove_duplicated_term" : true
         }
       }
     }

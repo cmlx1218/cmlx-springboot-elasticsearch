@@ -14,7 +14,7 @@ import org.springframework.data.elasticsearch.annotations.*;
 @Data
 @Setting(settingPath = "elasticsearch_setting.json")
 @Mapping(mappingPath = "elasticsearch_mapping.json")
-@Document(indexName = "school", type = "class")
+@Document(indexName = "school01", type = "class01")
 public class UserDto {
 
     @Id

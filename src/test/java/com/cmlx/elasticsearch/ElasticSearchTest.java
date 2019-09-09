@@ -51,8 +51,8 @@ public class ElasticSearchTest {
 
     @Test
     public void testSearch() {
-        QueryStringQueryBuilder builder = new QueryStringQueryBuilder("wsc");
-        builder.analyzer("ik_max_word").field("userName.pinyin").field("address.pinyin");
+        QueryStringQueryBuilder builder = new QueryStringQueryBuilder("zhengqiang");
+        builder.field("userName.pinyin");
         Iterable<UserDto> search = userRepository.search(builder);
         Iterator<UserDto> iterator = search.iterator();
         while (iterator.hasNext()) {
@@ -62,8 +62,8 @@ public class ElasticSearchTest {
 
     @Test
     public void testfenci() {
-        QueryStringQueryBuilder builder = new QueryStringQueryBuilder("wuxin");
-        builder.analyzer("pinyin_analyzer").field("userName").field("address");
+        QueryStringQueryBuilder builder = new QueryStringQueryBuilder("wx");
+        builder.analyzer("pinyin_analyzer").field("userName.pinyin").field("address.pinyin");
         Iterable<UserDto> search = userRepository.search(builder);
         Iterator<UserDto> iterator = search.iterator();
         while (iterator.hasNext()) {
