@@ -1,0 +1,122 @@
+{
+  "userinfo": {
+    "properties": {
+      "uid": {
+        "type": "keyword"
+      },
+      "phone": {
+        "type": "keyword"
+      },
+      "email": {
+        "type": "keyword"
+      },
+      "realName": {
+        "type": "text",
+        "analyzer": "ik_max_word",
+        "fields": {
+          "pinyin": {
+            "type": "text",
+            "term_vector": "with_positions_offsets",
+            "analyzer": "pinyin_analyzer",
+            "boost": 10.0
+          }
+        }
+      },
+      "nickName": {
+        "type": "text",
+        "analyzer": "ik_max_word",
+        "fields": {
+          "pinyin": {
+            "type": "text",
+            "term_vector": "with_positions_offsets",
+            "analyzer": "pinyin_analyzer",
+            "boost": 10.0
+          }
+        }
+      },
+      "avatarUri": {
+        "type": "text"
+      },
+      "description": {
+        "type": "text"
+      },
+      "birthday": {
+        "type": "text"
+      },
+      "sex": {
+        "type": "keyword"
+      },
+      "constellation": {
+        "type": "text"
+      },
+      "job": {
+        "type": "text",
+        "analyzer": "ik_max_word",
+        "fields": {
+          "pinyin": {
+            "type": "text",
+            "term_vector": "with_positions_offsets",
+            "analyzer": "pinyin_analyzer",
+            "boost": 10.0
+          }
+        }
+      },
+      "industry": {
+        "type": "text"
+      },
+      "hobby": {
+        "type": "text"
+      },
+      "education": {
+        "type": "text"
+      },
+      "income": {
+        "type": "text"
+      },
+      "country": {
+        "type": "text"
+      },
+      "language": {
+        "type": "text"
+      },
+      "province": {
+        "type": "text"
+      },
+      "city": {
+        "type": "text"
+      },
+      "address": {
+        "type": "text"
+      },
+      "source": {
+        "type": "text"
+      },
+      "createdAt": {
+        "type": "long"
+      },
+      "updatedAt": {
+        "type": "long"
+      },
+      "deletedAt": {
+        "type": "long"
+      },
+      "status": {
+        "type": "keyword"
+      },
+      "age": {
+        "type": "keyword"
+      },
+      "isPerfect": {
+        "type": "keyword"
+      },
+      "isProhibit": {
+        "type": "keyword"
+      },
+      "isPhone": {
+        "type": "keyword"
+      }
+    }
+  }
+}
+
+

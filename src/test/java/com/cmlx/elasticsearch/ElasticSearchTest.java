@@ -2,6 +2,7 @@ package com.cmlx.elasticsearch;
 
 import com.cmlx.elasticsearch.persist.dto.UserDto;
 import com.cmlx.elasticsearch.persist.repository.UserRepository;
+import com.cmlx.elasticsearch.persist.entity.UserBaseInfoEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.junit.Test;
@@ -29,10 +30,20 @@ public class ElasticSearchTest {
     @Autowired
     UserRepository userRepository;
 
+
     @Test
+    public void createUserInfoIndex() {
+        elasticsearchTemplate.createIndex(UserBaseInfoEntity.class);
+    }
+
+
+   /* @Test
     public void testCreateIndex() {
         elasticsearchTemplate.createIndex(UserDto.class);
     }
+
+
+
 
     @Test
     public void addMapping() {
@@ -74,7 +85,7 @@ public class ElasticSearchTest {
     @Test
     public void testdeleteIndex() {
         elasticsearchTemplate.deleteIndex(UserDto.class);
-    }
+    }*/
 
 
 }
