@@ -3,3 +3,6 @@ spring:
     elasticsearch:
       cluster-name: my-application
       cluster-nodes: 39.96.178.201:9300
+
+server:
+  port: 8989

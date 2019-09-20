@@ -1,0 +1,91 @@
+{
+  "group": {
+    "properties": {
+      "id": {
+        "type": "keyword"
+      },
+      "name": {
+        "type": "text",
+        "analyzer": "ik_max_word",
+        "fields": {
+          "pinyin": {
+            "type": "text",
+            "term_vector": "with_positions_offsets",
+            "analyzer": "pinyin_analyzer"
+          }
+        }
+      },
+      "description": {
+        "type": "text"
+      },
+      "localization": {
+        "type": "text"
+      },
+      "longitude": {
+        "type": "float"
+      },
+      "latitude": {
+        "type": "float"
+      },
+      "cityCode": {
+        "type": "text"
+      },
+      "dataState": {
+        "type": "integer"
+      },
+      "createTime": {
+        "type": "long"
+      },
+      "updateTime": {
+        "type": "long"
+      },
+      "creatorId": {
+        "type": "long"
+      },
+      "addressName": {
+        "type": "text"
+      },
+      "activeValue": {
+        "type": "double"
+      },
+      "activeTime": {
+        "type": "long"
+      },
+      "isOpen": {
+        "type": "integer"
+      },
+      "isOpenAudit": {
+        "type": "integer"
+      },
+      "source": {
+        "type": "text"
+      },
+      "createdAt": {
+        "type": "long"
+      },
+      "updatedAt": {
+        "type": "long"
+      },
+      "deletedAt": {
+        "type": "long"
+      },
+      "status": {
+        "type": "keyword"
+      },
+      "age": {
+        "type": "keyword"
+      },
+      "isPerfect": {
+        "type": "keyword"
+      },
+      "isProhibit": {
+        "type": "keyword"
+      },
+      "isPhone": {
+        "type": "keyword"
+      }
+    }
+  }
+}
+
+

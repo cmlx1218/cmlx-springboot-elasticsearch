@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Desc
@@ -24,8 +26,8 @@ public class UserController {
     private IUserService userService;
 
     @RequestMapping("/search")
-    public List<UserBaseInfoEntity> search(@NotBlank String key) {
-        List<UserBaseInfoEntity> search = userService.search(key);
+    public Map<String,Object> search(@NotBlank String key, @NotNull int page, @NotNull int size){
+        Map<String,Object> search = userService.search(key,page,size);
         return search;
     }
 

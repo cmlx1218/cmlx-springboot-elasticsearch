@@ -3,6 +3,7 @@ package com.cmlx.elasticsearch.service;
 import com.cmlx.elasticsearch.persist.entity.UserBaseInfoEntity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Desc
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public interface IUserService {
 
-    List<UserBaseInfoEntity> search(String key);
+    Map<String,Object> search(String key, int page, int size);
 
 }
 

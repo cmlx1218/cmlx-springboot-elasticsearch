@@ -1,6 +1,7 @@
 package com.cmlx.elasticsearch;
 
 import com.cmlx.elasticsearch.persist.dto.UserDto;
+import com.cmlx.elasticsearch.persist.entity.GroupEntity;
 import com.cmlx.elasticsearch.persist.repository.UserRepository;
 import com.cmlx.elasticsearch.persist.entity.UserBaseInfoEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -14,11 +15,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Iterator;
 
-/**
+ /*
  * @Desc
  * @Author cmlx
  * @Date 2019-9-5 0005 18:38
- */
+ **/
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ElasticsearchApplication.class)
@@ -31,13 +32,18 @@ public class ElasticSearchTest {
     UserRepository userRepository;
 
 
+     @Test
+     public void createUserInfoIndex() {
+         elasticsearchTemplate.createIndex(UserBaseInfoEntity.class);
+     }
+
+     @Test
+     public void createGroupIndex() {
+         elasticsearchTemplate.createIndex(GroupEntity.class);
+     }
+
+
     @Test
-    public void createUserInfoIndex() {
-        elasticsearchTemplate.createIndex(UserBaseInfoEntity.class);
-    }
-
-
-   /* @Test
     public void testCreateIndex() {
         elasticsearchTemplate.createIndex(UserDto.class);
     }
@@ -85,7 +91,8 @@ public class ElasticSearchTest {
     @Test
     public void testdeleteIndex() {
         elasticsearchTemplate.deleteIndex(UserDto.class);
-    }*/
+    }
+
 
 
 }
