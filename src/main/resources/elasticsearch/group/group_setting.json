@@ -2,9 +2,6 @@
   "index": {
     "analysis": {
       "analyzer": {
-        "default": {
-          "tokenizer": "ik_max_word"
-        },
         "pinyin_analyzer": {
           "tokenizer": "my_pinyin"
         }

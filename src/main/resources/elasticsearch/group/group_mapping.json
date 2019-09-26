@@ -1,12 +1,11 @@
 {
-  "group": {
+  "group011": {
     "properties": {
       "id": {
         "type": "keyword"
       },
       "name": {
         "type": "text",
-        "analyzer": "ik_max_word",
         "fields": {
           "pinyin": {
             "type": "text",
@@ -49,7 +48,7 @@
         "type": "double"
       },
       "activeTime": {
-        "type": "long"
+        "type": "text"
       },
       "isOpen": {
         "type": "integer"

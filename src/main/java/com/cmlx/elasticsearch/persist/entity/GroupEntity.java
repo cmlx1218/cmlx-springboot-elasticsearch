@@ -18,7 +18,7 @@ import org.springframework.data.elasticsearch.annotations.*;
 @NoArgsConstructor
 @Setting(settingPath = "elasticsearch/group/group_setting.json")
 @Mapping(mappingPath = "elasticsearch/group/group_mapping.json")
-@Document(indexName = "aimymusic01", type = "group")
+@Document(indexName = "aimymusic011", type = "group011")
 public class GroupEntity {
 
     @Id
@@ -61,8 +61,8 @@ public class GroupEntity {
     @Field(type = FieldType.Double, store = true)
     private Double activeValue;
 
-    @Field(type = FieldType.Long, store = true)
-    private Long activeTime;
+    @Field(type = FieldType.Text, store = true)
+    private String activeTime;
 
     @Field(type = FieldType.Integer, store = true)
     private Integer isOpen;
@@ -175,11 +175,11 @@ public class GroupEntity {
         this.activeValue = activeValue;
     }
 
-    public Long getActiveTime() {
+    public String getActiveTime() {
         return activeTime;
     }
 
-    public void setActiveTime(Long activeTime) {
+    public void setActiveTime(String activeTime) {
         this.activeTime = activeTime;
     }
 
