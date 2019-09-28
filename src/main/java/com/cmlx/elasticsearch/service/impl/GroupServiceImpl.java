@@ -6,7 +6,9 @@ import com.cmlx.elasticsearch.persist.repository.GroupRepository;
 import com.cmlx.elasticsearch.service.IGroupService;
 import com.cmlx.elasticsearch.utils.BeanToMapUtil;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.common.geo.GeoDistance;
 import org.elasticsearch.common.lucene.search.function.FunctionScoreQuery;
+import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -17,7 +19,10 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
+import org.elasticsearch.search.sort.FieldSortBuilder;
+import org.elasticsearch.search.sort.GeoDistanceSortBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -119,10 +124,76 @@ public class GroupServiceImpl implements IGroupService {
     @Override
     public List<GroupEntity> getRecommandList(int size, int page, UserExtendDto userExtendDto) {
         Pageable pageable = PageRequest.of(page, size);
+        ArrayList<GroupEntity> groupEntities = new ArrayList<>();
+        long nowTime = System.currentTimeMillis();
+        long todayStartTime = nowTime - (nowTime + TimeZone.getDefault().getRawOffset()) % (1000 * 3600 * 24);
+        //不推荐私密圈子和被移出的圈子
+        QueryBuilder queryBuilderfilter = QueryBuilders.boolQuery()
+                .must(QueryBuilders.matchQuery("dataState", "2"))
+                .must(QueryBuilders.matchQuery("isOpen", "1"));
+
+
+        //先推荐同城圈子
+        if (null != userExtendDto.getCityCode()) {
+            QueryBuilder queryBuilder01 = QueryBuilders.boolQuery()
+                    .must(QueryBuilders.matchQuery("cityCode", userExtendDto.getCityCode()));
+
+
+            //同城圈子按距离推荐
+            QueryBuilders.geoDistanceQuery("location")
+                    .point(userExtendDto.getLatitude(), userExtendDto.getLongitude())
+                    .distance(userExtendDto.getDistance(), DistanceUnit.METERS)
+                    .geoDistance(GeoDistance.ARC);
+
+            GeoDistanceSortBuilder sortBuilder = SortBuilders
+                    .geoDistanceSort("location", userExtendDto.getLatitude(), userExtendDto.getLongitude())
+                    .unit(DistanceUnit.METERS)
+                    .order(SortOrder.ASC);
+
+
+//            FieldSortBuilder sortBuilder = SortBuilders.fieldSort("createTime").order(SortOrder.DESC);
+
+            NativeSearchQuery query01 = new NativeSearchQueryBuilder()
+                    .withQuery(queryBuilder01)
+                    .withFilter(queryBuilderfilter)
+                    .withSort(sortBuilder).build();
+            Page<GroupEntity> search01 = groupRepository.search(query01);
+            System.out.println("同城圈子个数：" + search01.getTotalElements());
+            groupEntities.addAll(search01.getContent());
+        }
+        //推荐今天创建的圈子
+        QueryBuilder queryBuilder02 = QueryBuilders.boolQuery()
+                .must(QueryBuilders.rangeQuery("createTime").from(todayStartTime - 24 * 3600 * 1000, true).to(todayStartTime + 24 * 3600 * 1000));
+        FieldSortBuilder sortBuilder02 = SortBuilders.fieldSort("createTime").order(SortOrder.DESC);
+        NativeSearchQuery query02 = new NativeSearchQueryBuilder().withQuery(queryBuilder02).withFilter(queryBuilderfilter).withSort(sortBuilder02).build();
+        Page<GroupEntity> search02 = groupRepository.search(query02);
+        System.out.println("今日创建圈子个数：" + search02.getTotalElements());
+        groupEntities.addAll(search02.getContent());
+
+        //按活跃度高低推荐圈子
+        QueryBuilder queryBuilder03 = QueryBuilders.boolQuery()
+                .must(QueryBuilders.matchAllQuery());
+        FieldSortBuilder sortBuilder03 = SortBuilders.fieldSort("activeValue").order(SortOrder.DESC);
+        //去除前面推荐过的圈子
+        QueryBuilder queryBuilderfilter01 = QueryBuilders.boolQuery()
+                .mustNot(QueryBuilders.matchQuery("cityCode", userExtendDto.getCityCode()))
+                .mustNot(QueryBuilders.rangeQuery("createTime").from(todayStartTime - 24 * 3600 * 1000, true).to(todayStartTime + 24 * 3600 * 1000))
+                .must(QueryBuilders.matchQuery("dataState", "2"))
+                .must(QueryBuilders.matchQuery("isOpen", "1"));
+        NativeSearchQuery query03 = new NativeSearchQueryBuilder().withQuery(queryBuilder03).withFilter(queryBuilderfilter01).withSort(sortBuilder03).build();
+        Page<GroupEntity> search03 = groupRepository.search(query03);
+        System.out.println("活跃度推荐圈子圈子个数：" + search03.getTotalElements());
+        groupEntities.addAll(search03.getContent());
+        return groupEntities;
+    }
+
+    /*@Override
+    public List<GroupEntity> getRecommandList(int size, int page, UserExtendDto userExtendDto) {
+        Pageable pageable = PageRequest.of(page, size);
         long nowTime = System.currentTimeMillis();
         long todayStartTime = nowTime - (nowTime + TimeZone.getDefault().getRawOffset()) % (1000 * 3600 * 24);
 
-        /*List<FunctionScoreQueryBuilder.FilterFunctionBuilder> filterFunctionBuilders = new ArrayList<>();
+        *//*List<FunctionScoreQueryBuilder.FilterFunctionBuilder> filterFunctionBuilders = new ArrayList<>();
         filterFunctionBuilders.add(new FunctionScoreQueryBuilder.FilterFunctionBuilder(QueryBuilders.rangeQuery("createTime").from(todayStartTime).to(todayStartTime+86400000),
                 ScoreFunctionBuilders.weightFactorFunction(4)));
         filterFunctionBuilders.add(new FunctionScoreQueryBuilder.FilterFunctionBuilder(QueryBuilders.matchQuery("cityCode", userExtendDto.getCityCode()),
@@ -138,25 +209,27 @@ public class GroupServiceImpl implements IGroupService {
         // 创建搜索 DSL 查询
         SearchQuery searchQuery = new NativeSearchQueryBuilder()
                 .withPageable(pageable)
-                .withQuery(functionScoreQueryBuilder).build();*/
+                .withQuery(functionScoreQueryBuilder).build();*//*
 //        BoolQueryBuilder builder = QueryBuilders.boolQuery();
-/*        FunctionScoreQueryBuilder builder = QueryBuilders.functionScoreQuery(
-                QueryBuilders.boolQuery());*/
+*//*        FunctionScoreQueryBuilder builder = QueryBuilders.functionScoreQuery(
+                QueryBuilders.boolQuery());*//*
         FunctionScoreQueryBuilder builder = QueryBuilders.functionScoreQuery(
                 QueryBuilders.boolQuery()
-                        .should(QueryBuilders.matchQuery("cityCode", userExtendDto.getCityCode()).boost(100f))
-                        .should(QueryBuilders.rangeQuery("createTime").from(todayStartTime).to(todayStartTime + 86400000).boost(10f))
-                        .should(QueryBuilders.rangeQuery("activeValue").gte(0).lt(2000)).boost(2f)
+                        .should(QueryBuilders.matchQuery("cityCode", userExtendDto.getCityCode()).boost(10000f))
+                        .should(QueryBuilders.rangeQuery("createTime").from(todayStartTime - 86400000).to(todayStartTime + 86400000).boost(1000f))
+                        .should(QueryBuilders.rangeQuery("activeValue").from(0,true).to(2000).boost(100f))
                         .should(QueryBuilders.matchAllQuery())
-
         );
+
         NativeSearchQuery query = new NativeSearchQueryBuilder().withQuery(builder).withPageable(pageable).withSort(SortBuilders.scoreSort()).build();
 
         Page<GroupEntity> searchPageResults = groupRepository.search(query);
         System.out.println(searchPageResults.getTotalElements());
         System.out.println(searchPageResults.getTotalPages());
         return searchPageResults.getContent();
-    }
+    }*/
+
+
 }
 
 

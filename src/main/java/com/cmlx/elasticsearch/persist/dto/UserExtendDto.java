@@ -13,11 +13,13 @@ import java.math.BigDecimal;
 public class UserExtendDto {
     private Long uid;
 
-    private BigDecimal longitude; //经度
+    private double longitude; //经度
 
-    private BigDecimal latitude; //维度
+    private double latitude; //维度
 
     private String cityCode; //城市码
+
+    private double distance; //查询范围
 
     private Integer isPerfect;
 

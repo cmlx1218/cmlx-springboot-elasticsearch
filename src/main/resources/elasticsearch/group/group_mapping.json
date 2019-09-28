@@ -1,5 +1,5 @@
 {
-  "group011": {
+  "group-distance": {
     "properties": {
       "id": {
         "type": "keyword"
@@ -21,10 +21,13 @@
         "type": "text"
       },
       "longitude": {
-        "type": "float"
+        "type": "double"
       },
       "latitude": {
-        "type": "float"
+        "type": "double"
+      },
+      "location": {
+        "type": "geo_point"
       },
       "cityCode": {
         "type": "text"

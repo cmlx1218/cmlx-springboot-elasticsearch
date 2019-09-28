@@ -18,7 +18,7 @@ import org.springframework.data.elasticsearch.annotations.*;
 @NoArgsConstructor
 @Setting(settingPath = "elasticsearch/group/group_setting.json")
 @Mapping(mappingPath = "elasticsearch/group/group_mapping.json")
-@Document(indexName = "aimymusic011", type = "group011")
+@Document(indexName = "aimymusic-distance", type = "group-distance")
 public class GroupEntity {
 
     @Id
@@ -34,11 +34,14 @@ public class GroupEntity {
     @Field(type = FieldType.Text, store = true)
     private String localization;
 
-    @Field(type = FieldType.Float, store = true)
-    private float longitude;
+    @Field(type = FieldType.Double, store = true)
+    private Double longitude;
 
-    @Field(type = FieldType.Float, store = true)
-    private float latitude;
+    @Field(type = FieldType.Double, store = true)
+    private Double latitude;
+
+    @Field(type = FieldType.Text, store = true)
+    private String location;
 
     @Field(type = FieldType.Text, store = true)
     private String cityCode;
@@ -70,6 +73,7 @@ public class GroupEntity {
     @Field(type = FieldType.Integer, store = true)
     private Integer isOpenAudit;
 
+    private Double distance;
 
     public Long getId() {
         return id;
@@ -103,20 +107,28 @@ public class GroupEntity {
         this.localization = localization;
     }
 
-    public float getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
-    public float getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getCityCode() {
@@ -197,5 +209,13 @@ public class GroupEntity {
 
     public void setIsOpenAudit(Integer isOpenAudit) {
         this.isOpenAudit = isOpenAudit;
+    }
+
+    public Double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Double distance) {
+        this.distance = distance;
     }
 }
